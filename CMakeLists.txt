@@ -12,6 +12,9 @@ project (lox
 
 add_subdirectory(external/fmt)
 
-add_executable(lox src/main.cpp)
+add_executable(lox
+        src/main.cpp
+        src/return_codes.h
+        )
 target_link_libraries(lox PRIVATE fmt::fmt)
 target_compile_features(lox PRIVATE cxx_std_20)
