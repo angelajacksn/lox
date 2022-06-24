@@ -1,18 +1,21 @@
 #include "return_codes.h"
+#include "lox_runtime.h"
 #include <fmt/format.h>
 #include <fstream>
 #include <iostream>
 #include <string>
 
 Lox::ReturnCode run(std::istream& istream) {
+    Lox::LoxRuntime runtime;
     std::string input;
+    auto last_operation = Lox::ReturnCode::Ok;
     while (input != "exit") {
         fmt::print(">>> ");
         if (!std::getline(istream, input))
             break;
-        fmt::print("{}\n", input);
+        last_operation = runtime.run(input);
     }
-    return Lox::ReturnCode::Ok;
+    return last_operation;
 }
 
 Lox::ReturnCode run(std::ifstream& file) {
@@ -24,8 +27,8 @@ Lox::ReturnCode run(std::ifstream& file) {
         fmt::print(stderr, "Failed to read from source file\n");
         return Lox::ReturnCode::IOError;
     }
-    fmt::print("{}\n", source);
-    return Lox::ReturnCode::Ok;
+    Lox::LoxRuntime runtime;
+    return runtime.run(source);
 }
 
 int main(int argc, const char* argv[])

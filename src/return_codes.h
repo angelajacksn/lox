@@ -4,7 +4,9 @@
 namespace Lox {
     enum class ReturnCode {
         Ok = 0,
-        IOError
+        IOError,
+        SyntaxError,
+        RuntimeError
     };
 
     constexpr const char* get_return_code_msg(ReturnCode code) {
@@ -14,7 +16,12 @@ namespace Lox {
                 return "No error";
             case IOError:
                 return "An IO error occurred";
+            case SyntaxError:
+                return "Syntax error in source";
+            case RuntimeError:
+                return "A runtime error occurred";
         }
+        return "Invalid return code";
     }
 }
 
