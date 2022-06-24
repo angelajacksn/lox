@@ -16,7 +16,7 @@ add_executable(lox
         src/main.cpp
         src/return_codes.h
         src/lox_runtime.cpp
-        src/lox_runtime.h)
+        src/lox_runtime.h src/frontend/token.h src/frontend/scanner.cpp src/frontend/scanner.h src/frontend/syntax_error.h)
 target_link_libraries(lox PRIVATE fmt::fmt)
 target_include_directories(lox PRIVATE ./src)
 target_compile_features(lox PRIVATE cxx_std_20)

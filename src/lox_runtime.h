@@ -2,6 +2,7 @@
 #define LOX_LOX_RUNTIME_H
 
 #include "return_codes.h"
+#include "frontend/scanner.h"
 #include <string_view>
 
 namespace Lox
@@ -14,6 +15,7 @@ namespace Lox
 
     private:
         bool had_error_ = false;
+        Scanner scanner_;
     };
 
 } // namespace Lox
