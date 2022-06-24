@@ -16,12 +16,15 @@ namespace Lox
 
     private:
         char advance();
+        char peek() const { return source_.at(current_); }
         void new_line();
 
         bool is_at_end() const { return current_ >= source_.length(); }
         std::string_view current_substr() const { return source_.substr(token_start_, current_ - token_start_); }
         Token single_char_token(Token::Type type) const { return Token{.type = type, .string = current_substr(), .line = line_, .column = column_}; }
         Token eof_token() const { return Token{.type = Token::Type::Eof, .string = "", .line = line_, .column = column_}; }
+
+        Token number_token();
 
     private:
         std::string_view source_;
