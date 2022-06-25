@@ -3,6 +3,7 @@
 
 #include "return_codes.h"
 #include "frontend/parser.h"
+#include "backend/code_generator.h"
 #include <string_view>
 
 namespace Lox
@@ -17,6 +18,7 @@ namespace Lox
     private:
         bool had_error_ = false;
         Parser parser_;
+        CodeGenerator generator_;
     };
 
 } // namespace Lox

@@ -1,5 +1,6 @@
 #include "lox_runtime.h"
 
+#include "backend/disassembler.h"
 #include <fmt/format.h>
 
 namespace Lox
@@ -11,9 +12,15 @@ namespace Lox
     ReturnCode LoxRuntime::run(std::string_view source)
     {
         parser_.reset(source);
-        auto result = parser_.parse();
+
+        auto ast = parser_.parse();
         if (parser_.had_error())
             return ReturnCode::SyntaxError;
+
+        auto byte_code = generator_.generate(ast);
+        Disassembler disassembler;
+        disassembler.disassemble(byte_code);
+
         return ReturnCode::Ok;
     }
     void LoxRuntime::reset()
