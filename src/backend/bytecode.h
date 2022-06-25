@@ -16,9 +16,15 @@ namespace Lox {
         Sub,        // Subtract the 2 values on top of the stack
         Mul,        // Multiply the 2 values on top of the stack
         Div,        // Divide the 2 values on top of the stack
+        Neg,        // Negate a number
     };
 
-    using InstructionChunk = std::vector<Instruction>;
+    using CodeChunk = std::vector<Byte>;
+    static double read_double(const CodeChunk& chunk, size_t index) {
+        if (index >= chunk.size())
+            return 0;
+        return *reinterpret_cast<const double*>(chunk.data() + index);
+    }
 
     constexpr const char* to_string(Instruction instruction) {
         using enum Instruction;
@@ -37,6 +43,8 @@ namespace Lox {
                 return "MUL";
             case Div:
                 return "DIV";
+            case Neg:
+                return "NEG";
         }
         return "???";
     }
