@@ -6,7 +6,9 @@
 #include <fmt/format.h>
 
 namespace Lox {
-    enum class Instruction : uint8_t {
+    using Byte = uint8_t;
+
+    enum class Instruction : Byte {
         Nop = 0x0,  // No operation
         Push,       // Push value onto the stack
         Pop,        // Pop value from the stack

@@ -27,7 +27,9 @@ add_executable(lox
         src/common/object.h
         src/frontend/AST/expression.h
         src/frontend/AST/expression.cpp
-        src/backend/bytecode.h)
+        src/backend/bytecode.h
+        src/backend/stack.h
+        src/backend/stack.cpp)
 target_link_libraries(lox PRIVATE fmt::fmt)
 target_include_directories(lox PRIVATE ./src)
 target_compile_features(lox PRIVATE cxx_std_20)
