@@ -53,6 +53,13 @@ namespace Lox
         return source_.at(current_++);
     }
 
+    char Scanner::peek() const
+    {
+        if (is_at_end())
+            return '\0';
+        return source_.at(current_);
+    }
+
     void Scanner::new_line()
     {
         ++line_;

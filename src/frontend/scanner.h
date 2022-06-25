@@ -16,7 +16,7 @@ namespace Lox
 
     private:
         char advance();
-        char peek() const { return source_.at(current_); }
+        char peek() const;
         void new_line();
 
         bool is_at_end() const { return current_ >= source_.length(); }
