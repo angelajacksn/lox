@@ -84,6 +84,7 @@ namespace Lox
         }
 
         const Object& value() const { return *value_; }
+        Object::Ptr share_object() const { return value_; }
 
     private:
         Object::Ptr value_;
