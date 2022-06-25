@@ -12,8 +12,7 @@ namespace Lox
         try {
             advance();
             return expression();
-        }
-        catch (const SyntaxError& e) {
+        } catch (const SyntaxError& e) {
             fmt::print(stderr, "SyntaxError: {}\n", e.what());
             had_error_ = true;
         }
@@ -48,7 +47,8 @@ namespace Lox
     Expression::Ptr Parser::unary()
     {
         if (match(Token::Type::Minus)) {
-            return Expression::create<UnaryExpr>(unary(), previous_token_);
+            auto unary_operator = previous_token_;
+            return Expression::create<UnaryExpr>(unary(), unary_operator);
         }
         return primary();
     }
@@ -67,7 +67,7 @@ namespace Lox
 
     Token& Parser::advance()
     {
-        previous_token_ = std::move(current_token_);
+        previous_token_ = current_token_;
         current_token_ = scanner_.next_token();
         return current_token_;
     }
@@ -75,12 +75,11 @@ namespace Lox
     void Parser::expect_and_consume(Token::Type type, const std::string& error_message)
     {
         if (!match(type)) {
-
         }
     }
 
-    SyntaxError Parser::syntax_error(const std::string& message)
+    SyntaxError Parser::syntax_error(const std::string& message) const
     {
-        return SyntaxError(message, current_token_.line, current_token_.column);
+        return {message, current_token_.line, current_token_.column};
     }
 } // namespace Lox

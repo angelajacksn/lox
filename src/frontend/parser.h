@@ -30,7 +30,7 @@ namespace Lox
 
         Token& advance();
         void expect_and_consume(Token::Type type, const std::string& error_message);
-        SyntaxError syntax_error(const std::string& message);
+        SyntaxError syntax_error(const std::string& message) const;
 
         bool check(Token::Type type) const { return current_token_.type == type; }
         template<typename... Types>
