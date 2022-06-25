@@ -4,11 +4,16 @@
 
 namespace Lox
 {
+    LoxRuntime::LoxRuntime()
+        : parser_()
+    {
+    }
     ReturnCode LoxRuntime::run(std::string_view source)
     {
-        scanner_.reset(source);
-        for (auto token = scanner_.next_token(); token.type != Token::Type::Eof; token = scanner_.next_token())
-            fmt::print("{}\n", token);
+        parser_.reset(source);
+        auto result = parser_.parse();
+        if (parser_.had_error())
+            return ReturnCode::SyntaxError;
         return ReturnCode::Ok;
     }
     void LoxRuntime::reset()

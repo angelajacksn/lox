@@ -2,7 +2,7 @@
 #define LOX_LOX_RUNTIME_H
 
 #include "return_codes.h"
-#include "frontend/scanner.h"
+#include "frontend/parser.h"
 #include <string_view>
 
 namespace Lox
@@ -10,12 +10,13 @@ namespace Lox
     class LoxRuntime
     {
     public:
+        LoxRuntime();
         ReturnCode run(std::string_view source);
         void reset();
 
     private:
         bool had_error_ = false;
-        Scanner scanner_;
+        Parser parser_;
     };
 
 } // namespace Lox

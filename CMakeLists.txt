@@ -21,8 +21,12 @@ add_executable(lox
         src/frontend/scanner.cpp
         src/frontend/scanner.h
         src/frontend/syntax_error.h
+        src/frontend/parser.cpp
+        src/frontend/parser.h
         src/common/object.cpp
-        src/common/object.h)
+        src/common/object.h
+        src/frontend/AST/expression.h
+        src/frontend/AST/expression.cpp)
 target_link_libraries(lox PRIVATE fmt::fmt)
 target_include_directories(lox PRIVATE ./src)
 target_compile_features(lox PRIVATE cxx_std_20)
