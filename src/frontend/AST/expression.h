@@ -97,6 +97,7 @@ namespace Lox
         {
             return visitor.visit(*this);
         }
+        const Expression& expression() const { return *expression_; }
 
     private:
         Expression::Ptr expression_;
