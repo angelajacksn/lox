@@ -20,12 +20,16 @@ namespace Lox
         void generate_code(const Expression& expression) { expression.accept(*this); }
 
         template<typename... Args>
-        void write_instruction(Instruction instruction, const Args&&... args)
+        void write_instruction(Instruction instruction, Args&&... args)
         {
             code_.push_back(static_cast<Byte>(instruction));
             (code_.push_back(args), ...);
         }
-        void write_number(double value);
+        void add_constant(Object::Ptr value)
+        {
+            auto constant_index = code_.push_constant(std::move(value));
+            write_instruction(Instruction::PushC, constant_index);
+        }
 
     private:
         CodeChunk code_;

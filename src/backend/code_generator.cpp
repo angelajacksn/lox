@@ -46,10 +46,7 @@ namespace Lox
 
     Object::Ptr CodeGenerator::visit(const LiteralExpr& expr)
     {
-        if (auto number = dynamic_cast<const Number*>(&expr.value())) {
-            write_instruction(Instruction::Push);
-            write_number(number->value());
-        }
+        add_constant(expr.share_object());
         return nullptr;
     }
 
@@ -57,12 +54,5 @@ namespace Lox
     {
         generate_code(expr.expression());
         return nullptr;
-    }
-
-    void CodeGenerator::write_number(double value)
-    {
-        Byte* array = reinterpret_cast<uint8_t*>(&value);
-        for (size_t i = 0; i < sizeof(value); ++i)
-            code_.push_back(array[i]);
     }
 } // namespace Lox
