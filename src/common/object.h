@@ -37,6 +37,7 @@ namespace Lox
         Number(std::string_view value);
         std::string_view to_string() const override { return string_; }
         Type type() const override;
+        double value() const { return value_; }
 
     private:
         double value_ = 0.0;
