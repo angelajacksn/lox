@@ -10,7 +10,7 @@ namespace Lox
     class SyntaxError : public std::runtime_error
     {
     public:
-        SyntaxError(const char* message, size_t line, size_t column)
+        SyntaxError(auto message, size_t line, size_t column)
             : std::runtime_error(fmt::format("{} (line: {}, column: {})", message, line, column))
             , line_(line)
             , column_(column)
