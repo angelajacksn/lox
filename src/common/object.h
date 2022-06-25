@@ -1,6 +1,8 @@
 #ifndef LOX_OBJECT_H
 #define LOX_OBJECT_H
 
+#include <concepts>
+#include <memory>
 #include <string>
 #include <string_view>
 
@@ -13,6 +15,14 @@ namespace Lox
             Nil,
             Number
         };
+
+        using Ptr = std::shared_ptr<Object>;
+        template<typename ObjectType, typename... Args>
+            requires std::derived_from<ObjectType, Object>
+        static auto create(Args&&... args)
+        {
+            return std::make_shared<ObjectType>(std::forward<Args>(args)...);
+        }
 
         virtual ~Object() = default;
         virtual std::string_view to_string() const = 0;
