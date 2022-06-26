@@ -25,13 +25,13 @@ namespace Lox
             return index;
         }
 
-        Object* get(IndexType index) const
+        Object::Ptr get(IndexType index) const
         {
             // We need to check since std::array::operator[] does
             // no bounds checking
             if (index >= PoolSize)
                 throw std::range_error("Constant index larger than kMaxConstants");
-            return constants_[index].get();
+            return constants_[index];
         }
 
     private:
