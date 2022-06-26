@@ -74,8 +74,8 @@ namespace Lox
 
     void Parser::expect_and_consume(Token::Type type, const std::string& error_message)
     {
-        if (!match(type)) {
-        }
+        if (!match(type))
+            throw SyntaxError(error_message, current_token_.location);
     }
 
     SyntaxError Parser::syntax_error(const std::string& message) const

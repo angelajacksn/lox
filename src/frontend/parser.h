@@ -5,7 +5,6 @@
 #include "scanner.h"
 #include "syntax_error.h"
 
-
 namespace Lox
 {
     class Parser
