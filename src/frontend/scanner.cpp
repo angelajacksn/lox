@@ -24,7 +24,7 @@ namespace Lox
                 case ' ':
                     break;
                 case '\n':
-                    new_line();
+                    location_.new_line();
                     break;
                 case '+':
                     return single_char_token(Token::Type::Plus);
@@ -41,7 +41,7 @@ namespace Lox
                 default:
                     if (std::isdigit(c))
                         return number_token();
-                    throw SyntaxError("Unknown character", line_, column_);
+                    throw SyntaxError("Unknown character", location_);
             }
         }
         return eof_token();
@@ -49,7 +49,7 @@ namespace Lox
 
     char Scanner::advance()
     {
-        ++column_;
+        location_.advance();
         return source_.at(current_++);
     }
 
@@ -60,15 +60,9 @@ namespace Lox
         return source_.at(current_);
     }
 
-    void Scanner::new_line()
-    {
-        ++line_;
-        column_ = 0;
-    }
-
     Token Scanner::number_token()
     {
-        auto number_start_column = column_;
+        auto number_start_location = location_;
         auto consume_number = [this] {
             while (!is_at_end() && std::isdigit(peek()))
                 advance();
@@ -78,9 +72,9 @@ namespace Lox
         if (peek() == '.') {
             advance();
             if (!std::isdigit(peek()))
-                throw SyntaxError("Invalid floating point syntax. Expected number after '.'", line_, column_);
+                throw SyntaxError("Invalid floating point syntax. Expected number after '.'", location_);
             consume_number();
         }
-        return Token{.type = Token::Type::Number, .string = current_substr(), .line = line_, .column = number_start_column};
+        return Token{.type = Token::Type::Number, .string = current_substr(), .location = number_start_location};
     }
 } // namespace Lox

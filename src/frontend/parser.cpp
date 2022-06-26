@@ -80,6 +80,6 @@ namespace Lox
 
     SyntaxError Parser::syntax_error(const std::string& message) const
     {
-        return {message, current_token_.line, current_token_.column};
+        return {message, current_token_.location};
     }
 } // namespace Lox

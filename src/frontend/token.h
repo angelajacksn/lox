@@ -1,6 +1,7 @@
 #ifndef LOX_TOKEN_H
 #define LOX_TOKEN_H
 
+#include "common/source_location.h"
 #include <fmt/format.h>
 #include <string>
 #include <string_view>
@@ -23,8 +24,7 @@ namespace Lox
 
         Token::Type type;
         std::string_view string;
-        size_t line;
-        size_t column;
+        SourceLocation location;
     };
 
     constexpr std::string to_string(Token::Type type)
@@ -65,8 +65,8 @@ struct fmt::formatter<Lox::Token> {
         return format_to(ctx.out(), "{}: {{ str: {}, line: {}, column: {} }}",
                          Lox::to_string(token.type),
                          token.string,
-                         token.line,
-                         token.column);
+                         token.location.line,
+                         token.location.column);
     }
 };
 

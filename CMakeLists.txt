@@ -25,6 +25,7 @@ add_executable(lox
         src/frontend/parser.h
         src/common/object.cpp
         src/common/object.h
+        src/common/source_location.h
         src/frontend/AST/expression.h
         src/frontend/AST/expression.cpp
         src/backend/bytecode.h

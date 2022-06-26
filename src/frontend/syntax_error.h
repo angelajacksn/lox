@@ -1,6 +1,7 @@
 #ifndef LOX_SYNTAX_ERROR_H
 #define LOX_SYNTAX_ERROR_H
 
+#include "common/source_location.h"
 #include "token.h"
 #include <fmt/format.h>
 #include <stdexcept>
@@ -10,19 +11,16 @@ namespace Lox
     class SyntaxError : public std::runtime_error
     {
     public:
-        SyntaxError(auto message, size_t line, size_t column)
-            : std::runtime_error(fmt::format("{} (line: {}, column: {})", message, line, column))
-            , line_(line)
-            , column_(column)
+        SyntaxError(auto message, SourceLocation location)
+            : std::runtime_error(fmt::format("{} (line: {}, column: {})", message, location.line, location.column))
+            , location_(std::move(location))
         {
         }
 
-        size_t line() const { return line_; }
-        size_t column() const { return column_; }
+        const SourceLocation& location() const { return location_; }
 
     private:
-        size_t line_;
-        size_t column_;
+        SourceLocation location_;
     };
 
 } // namespace Lox
