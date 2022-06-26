@@ -1,26 +1,22 @@
-//
-// Created by sarpsenturk on 26.06.2022.
-//
-
 #include "stack.h"
 
 namespace Lox
 {
-    void Stack::push(Byte byte)
+    void Stack::push(Object::Ptr object)
     {
-        stack_.push(byte);
+        stack_.push(std::move(object));
     }
 
-    Byte Stack::pop()
+    Object::Ptr Stack::pop()
     {
         auto value = stack_.top();
         stack_.pop();
         return value;
     }
 
-    Byte Stack::top() const
+    Object* Stack::top() const
     {
-        return stack_.top();
+        return stack_.top().get();
     }
 
     bool Stack::empty() const
