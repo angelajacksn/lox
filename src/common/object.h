@@ -35,9 +35,16 @@ namespace Lox
         Number() = default;
         Number(double value);
         Number(std::string_view value);
+
         std::string_view to_string() const override { return string_; }
         Type type() const override;
+
         double value() const { return value_; }
+        double operator+(const Number& other) const { return value_ + other.value_; }
+        double operator-(const Number& other) const { return value_ - other.value_; }
+        double operator-() const { return -value_; }
+        double operator*(const Number& other) const { return value_ * other.value_; }
+        double operator/(const Number& other) const { return value_ / other.value_; }
 
     private:
         double value_ = 0.0;
