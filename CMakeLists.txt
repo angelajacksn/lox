@@ -33,7 +33,9 @@ add_executable(lox
         src/backend/code_generator.h
         src/backend/code_generator.cpp
         src/backend/disassembler.h
-        src/backend/disassembler.cpp)
+        src/backend/disassembler.cpp
+        src/backend/errors/vm_error.h
+        src/backend/errors/out_of_memory_error.h)
 target_link_libraries(lox PRIVATE fmt::fmt)
 target_include_directories(lox PRIVATE ./src)
 target_compile_features(lox PRIVATE cxx_std_20)

@@ -2,6 +2,7 @@
 #define LOX_BYTECODE_H
 
 #include "common/object.h"
+#include "errors/out_of_memory_error.h"
 #include <array>
 #include <cstdint>
 #include <fmt/format.h>
@@ -35,12 +36,10 @@ namespace Lox
         size_t size() const { return text_.size(); }
         Byte operator[](size_t index) const { return text_[index]; }
 
-        Byte push_constant(Object::Ptr value)
+        auto push_constant(Object::Ptr value)
         {
-            if (last_constant_index_ >= kMaxConstants - 1) {
-                // TODO: Throw exception / do assertion
-                return -1;
-            }
+            if (last_constant_index_ >= kMaxConstants - 1)
+                throw OutOfMemoryError();
             auto index = last_constant_index_++;
             constants_[index] = std::move(value);
             return index;
@@ -48,10 +47,10 @@ namespace Lox
 
         Object::Ptr get_constant(size_t index) const
         {
-            if (index >= kMaxConstants) {
-                // TODO: Throw exception / do assertion
-                return nullptr;
-            }
+            // We need to check since std::array::operator[] does
+            // no bounds checking
+            if (index >= kMaxConstants)
+                throw std::range_error("Constant index larger than kMaxConstants");
             return constants_[index];
         }
 
