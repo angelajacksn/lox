@@ -9,9 +9,9 @@ Lox::ReturnCode run(std::istream& istream) {
     Lox::LoxRuntime runtime;
     std::string input;
     auto last_operation = Lox::ReturnCode::Ok;
-    while (input != "exit") {
+    while (true) {
         fmt::print(">>> ");
-        if (!std::getline(istream, input))
+        if (!std::getline(istream, input) || input == "exit")
             break;
         last_operation = runtime.run(input);
     }
