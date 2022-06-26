@@ -15,8 +15,9 @@ namespace Lox
     {
     }
 
-    LiteralExpr::LiteralExpr(Object::Ptr value)
+    LiteralExpr::LiteralExpr(Object::Ptr value, SourceLocation location)
         : value_(std::move(value))
+        , source_location_(std::move(location))
     {
     }
 

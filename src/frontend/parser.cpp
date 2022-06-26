@@ -56,7 +56,7 @@ namespace Lox
     Expression::Ptr Parser::primary()
     {
         if (match(Token::Type::Number))
-            return Expression::create<LiteralExpr>(Object::create<Number>(previous_token_.string));
+            return Expression::create<LiteralExpr>(Object::create<Number>(previous_token_.string), previous_token_.location);
         else if (match(Token::Type::LeftParen)) {
             auto expr = expression();
             expect_and_consume(Token::Type::RightParen, "Expected ')' after expression");

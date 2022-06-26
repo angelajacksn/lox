@@ -2,6 +2,7 @@
 #define LOX_EXPRESSION_H
 
 #include "common/object.h"
+#include "common/source_location.h"
 #include "frontend/token.h"
 
 #include <memory>
@@ -36,6 +37,7 @@ namespace Lox
 
         virtual ~Expression() = default;
         virtual Object::Ptr accept(ExpressionVisitor& visitor) const = 0;
+        virtual const SourceLocation& source_location() const = 0;
     };
 
     class BinaryExpr : public Expression
@@ -50,6 +52,7 @@ namespace Lox
         const Expression& left() const { return *left_; }
         const Token& binary_operator() const { return operator_; }
         const Expression& right() const { return *right_; }
+        const SourceLocation& source_location() const override { return operator_.location; }
 
     private:
         Expression::Ptr left_;
@@ -68,6 +71,7 @@ namespace Lox
 
         const Expression& operand() const { return *operand_; }
         const Token& unary_operator() const { return operator_; }
+        const SourceLocation& source_location() const override { return operator_.location; }
 
     private:
         Expression::Ptr operand_;
@@ -77,7 +81,7 @@ namespace Lox
     class LiteralExpr : public Expression
     {
     public:
-        LiteralExpr(Object::Ptr value);
+        LiteralExpr(Object::Ptr value, SourceLocation source_location);
         Object::Ptr accept(ExpressionVisitor& visitor) const override
         {
             return visitor.visit(*this);
@@ -85,9 +89,11 @@ namespace Lox
 
         const Object& value() const { return *value_; }
         Object::Ptr share_object() const { return value_; }
+        const SourceLocation& source_location() const override { return source_location_; }
 
     private:
         Object::Ptr value_;
+        SourceLocation source_location_;
     };
 
     class GroupingExpr : public Expression
@@ -99,6 +105,7 @@ namespace Lox
             return visitor.visit(*this);
         }
         const Expression& expression() const { return *expression_; }
+        const SourceLocation& source_location() const override { return expression_->source_location(); }
 
     private:
         Expression::Ptr expression_;
