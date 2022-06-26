@@ -1,9 +1,9 @@
 #ifndef LOX_LOX_RUNTIME_H
 #define LOX_LOX_RUNTIME_H
 
-#include "return_codes.h"
+#include "backend/VM/vm.h"
 #include "frontend/parser.h"
-#include "backend/code_generator.h"
+#include "return_codes.h"
 #include <string_view>
 
 namespace Lox
@@ -11,6 +11,8 @@ namespace Lox
     class LoxRuntime
     {
     public:
+        static constexpr bool kPrintDisassembly = false;
+        
         LoxRuntime();
         ReturnCode run(std::string_view source);
         void reset();
@@ -18,7 +20,7 @@ namespace Lox
     private:
         bool had_error_ = false;
         Parser parser_;
-        CodeGenerator generator_;
+        VM vm_;
     };
 
 } // namespace Lox

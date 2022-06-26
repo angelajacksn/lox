@@ -1,5 +1,6 @@
 #include "lox_runtime.h"
 
+#include "backend/code_generator.h"
 #include "backend/disassembler.h"
 #include <fmt/format.h>
 
@@ -17,11 +18,14 @@ namespace Lox
         if (parser_.had_error())
             return ReturnCode::SyntaxError;
 
-        auto byte_code = generator_.generate(ast);
-        Disassembler disassembler;
-        disassembler.disassemble(byte_code);
+        auto byte_code = CodeGenerator().generate(ast);
+        if constexpr (kPrintDisassembly)
+            Disassembler().disassemble(byte_code);
 
-        return ReturnCode::Ok;
+        auto exec_result = vm_.execute(byte_code);
+        fmt::print("{}\n", vm_.stack().top()->to_string());
+
+        return exec_result;
     }
     void LoxRuntime::reset()
     {
