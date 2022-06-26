@@ -1,8 +1,7 @@
 #ifndef LOX_BYTECODE_H
 #define LOX_BYTECODE_H
 
-#include "common/object.h"
-#include "errors/out_of_memory_error.h"
+#include "constant_pool.h"
 #include <array>
 #include <cstdint>
 #include <fmt/format.h>
@@ -30,35 +29,15 @@ namespace Lox
         static constexpr auto kMaxConstants = std::numeric_limits<Byte>::max();
 
     public:
-        CodeChunk() { constants_.fill(nullptr); }
-
         void push_back(Byte value) { text_.push_back(value); }
         size_t size() const { return text_.size(); }
         Byte operator[](size_t index) const { return text_[index]; }
-
-        auto push_constant(Object::Ptr value)
-        {
-            if (last_constant_index_ >= kMaxConstants - 1)
-                throw OutOfMemoryError();
-            auto index = last_constant_index_++;
-            constants_[index] = std::move(value);
-            return index;
-        }
-
-        Object::Ptr get_constant(size_t index) const
-        {
-            // We need to check since std::array::operator[] does
-            // no bounds checking
-            if (index >= kMaxConstants)
-                throw std::range_error("Constant index larger than kMaxConstants");
-            return constants_[index];
-        }
+        auto& constants() { return constants_; }
+        auto& constants() const { return constants_; }
 
     private:
         std::vector<Byte> text_;
-
-        std::array<Object::Ptr, kMaxConstants> constants_;
-        Byte last_constant_index_ = 0;
+        ConstantPool<Byte> constants_;
     };
 
     constexpr const char* to_string(Instruction instruction)

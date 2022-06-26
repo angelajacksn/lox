@@ -15,7 +15,7 @@ namespace Lox
                     break;
                 case Instruction::PushC: {
                     auto constant_index = chunk[++location];
-                    fmt::print("{} {} ({})\n", instruction, constant_index, chunk.get_constant(constant_index)->to_string());
+                    fmt::print("{} {} ({})\n", instruction, constant_index, chunk.constants().get(constant_index)->to_string());
                     break;
                 }
                 default:

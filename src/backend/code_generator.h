@@ -27,7 +27,7 @@ namespace Lox
         }
         void add_constant(Object::Ptr value)
         {
-            auto constant_index = code_.push_constant(std::move(value));
+            auto constant_index = code_.constants().push(std::move(value));
             write_instruction(Instruction::PushC, constant_index);
         }
 
