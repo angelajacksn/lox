@@ -2,9 +2,10 @@
 
 namespace Lox
 {
-    CodeChunk CodeGenerator::generate(const Expression::Ptr& expression)
+    CodeChunk CodeGenerator::generate(const std::vector<Statement::Ptr>& program)
     {
-        generate_code(*expression);
+        for (auto& statement : program)
+            generate_code(*statement);
         return code_;
     }
 
@@ -54,5 +55,16 @@ namespace Lox
     {
         generate_code(expr.expression());
         return nullptr;
+    }
+
+    void CodeGenerator::visit(const PrintStmt& stmt)
+    {
+        generate_code(stmt.expression());
+        write_instruction(Instruction::Print);
+    }
+
+    void CodeGenerator::visit(const ExpressionStmt& stmt)
+    {
+        generate_code(stmt.expression());
     }
 } // namespace Lox

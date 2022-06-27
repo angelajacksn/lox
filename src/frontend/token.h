@@ -18,6 +18,10 @@ namespace Lox
             Slash,
             LeftParen,
             RightParen,
+            Semicolon,
+
+            Identifier,
+            Print,
 
             Eof
         };
@@ -45,6 +49,12 @@ namespace Lox
                 return "LEFT_PAREN";
             case RightParen:
                 return "RIGHT_PAREN";
+            case Semicolon:
+                return "SEMICOLON";
+            case Identifier:
+                return "IDENTIFIER";
+            case Print:
+                return "PRINT";
             case Eof:
                 return "EOF";
         }

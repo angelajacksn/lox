@@ -28,6 +28,8 @@ add_executable(lox
         src/common/source_location.h
         src/frontend/AST/expression.h
         src/frontend/AST/expression.cpp
+        src/frontend/AST/statement.h
+        src/frontend/AST/statement.cpp
         src/backend/bytecode.h
         src/backend/stack.h
         src/backend/stack.cpp

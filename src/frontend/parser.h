@@ -2,8 +2,10 @@
 #define LOX_PARSER_H
 
 #include "AST/expression.h"
+#include "AST/statement.h"
 #include "scanner.h"
 #include "syntax_error.h"
+#include <vector>
 
 namespace Lox
 {
@@ -17,10 +19,13 @@ namespace Lox
         }
 
         void reset(std::string_view source);
-        Expression::Ptr parse();
+        std::vector<Statement::Ptr> parse();
         bool had_error() const { return had_error_; }
 
     private:
+        Statement::Ptr statement();
+        Statement::Ptr print_statement();
+        Statement::Ptr expression_statement();
         Expression::Ptr expression();
         Expression::Ptr add_subtract();
         Expression::Ptr factor();

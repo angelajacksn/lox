@@ -60,6 +60,9 @@ namespace Lox
                         auto negated = -(*operand);
                         stack_.push(Object::create<Number>(negated));
                     }
+                case Print:
+                    fmt::print("{}\n", stack_.pop()->to_string());
+                    break;
             }
         }
         return ReturnCode::Ok;

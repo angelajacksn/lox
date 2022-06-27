@@ -3,6 +3,7 @@
 
 #include "token.h"
 #include <vector>
+#include <unordered_map>
 
 namespace Lox
 {
@@ -13,6 +14,9 @@ namespace Lox
         Scanner(std::string_view source);
         void reset(std::string_view source);
         [[nodiscard]] Token next_token();
+
+        // TODO: Maybe get rid of the static/global
+        static const std::unordered_map<std::string_view, Token::Type> kKeywords;
 
     private:
         char advance();
@@ -28,6 +32,7 @@ namespace Lox
         Token eof_token() const { return Token{.type = Token::Type::Eof, .string = "", .location = location_}; }
 
         Token number_token();
+        Token identifier_or_keyword();
 
     private:
         std::string_view source_;

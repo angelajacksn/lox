@@ -7,16 +7,41 @@ namespace Lox
         *this = Parser(source);
     }
 
-    Expression::Ptr Parser::parse()
+    std::vector<Statement::Ptr> Parser::parse()
     {
         try {
             advance();
-            return expression();
+            std::vector<Statement::Ptr> statements;
+            while (current_token_.type != Token::Type::Eof) {
+                statements.push_back(statement());
+            }
+            return statements;
         } catch (const SyntaxError& e) {
             fmt::print(stderr, "SyntaxError: {}\n", e.what());
             had_error_ = true;
         }
-        return nullptr;
+        return {};
+    }
+
+    Statement::Ptr Parser::statement()
+    {
+        if (match(Token::Type::Print))
+            return print_statement();
+        return expression_statement();
+    }
+
+    Statement::Ptr Parser::print_statement()
+    {
+        auto expr = expression();
+        expect_and_consume(Token::Type::Semicolon, "Expected ';' after value");
+        return Statement::create<PrintStmt>(std::move(expr));
+    }
+
+    Statement::Ptr Parser::expression_statement()
+    {
+        auto expr = expression();
+        expect_and_consume(Token::Type::Semicolon, "Expected ';' after expression");
+        return Statement::create<ExpressionStmt>(std::move(expr));
     }
 
     Expression::Ptr Parser::expression()

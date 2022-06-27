@@ -22,10 +22,7 @@ namespace Lox
         if constexpr (kPrintDisassembly)
             Disassembler().disassemble(byte_code);
 
-        auto exec_result = vm_.execute(byte_code);
-        fmt::print("{}\n", vm_.stack().top()->to_string());
-
-        return exec_result;
+        return vm_.execute(byte_code);
     }
     void LoxRuntime::reset()
     {

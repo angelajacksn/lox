@@ -21,6 +21,7 @@ namespace Lox
         Mul, // Multiply the 2 values on top of the stack
         Div, // Divide the 2 values on top of the stack
         Neg, // Negate the value on top of the stack
+        Print, // Print the value on top of the stack
     };
 
     class CodeChunk
@@ -62,6 +63,8 @@ namespace Lox
                 return "DIV";
             case Neg:
                 return "NEG";
+            case Print:
+                return "PRINT";
         }
         return "???";
     }
