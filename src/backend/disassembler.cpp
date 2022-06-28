@@ -6,6 +6,7 @@ namespace Lox
 {
     void Disassembler::disassemble(const CodeChunk& chunk)
     {
+        fmt::print("{:=^20}\n", "Disassembly");
         for (size_t location = 0; location < chunk.size(); ++location) {
             fmt::print("{:#X} ", location);
             auto instruction = static_cast<Instruction>(chunk[location]);
@@ -22,5 +23,6 @@ namespace Lox
                     fmt::print("{}\n", instruction);
             }
         }
+        fmt::print("{:=^20}\n", "Disassembly");
     }
 } // namespace Lox
