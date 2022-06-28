@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <concepts>
+#include <fmt/format.h>
 #include <memory>
 #include <string>
 #include <string_view>
@@ -111,6 +112,34 @@ namespace Lox
     private:
         std::string string_;
     };
+
+    constexpr const char* to_string(Object::Type object_type)
+    {
+        using enum Object::Type;
+        switch (object_type) {
+            case Nil:
+                return "Nil";
+            case Number:
+                return "Number";
+            case String:
+                return "String";
+        }
+        return "UNKNOWN";
+    }
 } // namespace Lox
+
+template<>
+    struct fmt::formatter<Lox::Object::Type> {
+    constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin())
+    {
+        return ctx.begin();
+    }
+
+    template<typename FormatContext>
+    auto format(Lox::Object::Type type, FormatContext& ctx) const -> decltype(ctx.out())
+    {
+        return format_to(ctx.out(), "{}", Lox::to_string(type));
+    }
+};
 
 #endif // LOX_OBJECT_H

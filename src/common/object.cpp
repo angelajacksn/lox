@@ -21,7 +21,6 @@ namespace Lox
         if (auto number = dynamic_cast<const Number*>(&other))
             return Object::create<Number>(value_ + number->value_);
 
-        //TODO: throw RuntimeException();
         return nullptr;
     }
 
@@ -30,7 +29,6 @@ namespace Lox
         if (auto number = dynamic_cast<const Number*>(&other))
             return Object::create<Number>(value_ - number->value_);
 
-        //TODO: throw RuntimeException();
         return nullptr;
     }
 
@@ -41,7 +39,6 @@ namespace Lox
 
     Object::Ptr Number::multiply(const Object& other) const
     {
-        //TODO: throw RuntimeException();
         return nullptr;
     }
     Object::Ptr Number::divide(const Object& other) const
@@ -49,7 +46,6 @@ namespace Lox
         if (auto number = dynamic_cast<const Number*>(&other))
             return Object::create<Number>(value_ * number->value_);
 
-        //TODO: throw RuntimeException();
         return nullptr;
     }
     Object::Ptr Number::modulus(const Object& other) const
@@ -57,7 +53,6 @@ namespace Lox
         if (auto number = dynamic_cast<const Number*>(&other))
             return Object::create<Number>(std::fmod(value_, number->value_));
 
-        //TODO: throw RuntimeException();
         return nullptr;
     }
 
@@ -76,18 +71,15 @@ namespace Lox
         if (auto string = dynamic_cast<const String*>(&other))
             return Object::create<String>(string_ + string->string_);
 
-        //TODO: throw RuntimeException();
         return nullptr;
     }
 
     Object::Ptr String::subtract(const Object& other) const
     {
-        //TODO: throw RuntimeException();
         return nullptr;
     }
     Object::Ptr String::negate() const
     {
-        //TODO: throw RuntimeException();
         return nullptr;
     }
     Object::Ptr String::multiply(const Object& other) const
@@ -98,17 +90,14 @@ namespace Lox
                 multiplied_string += string_;
             return Object::create<String>(multiplied_string);
         }
-        //TODO: throw RuntimeException();
         return nullptr;
     }
     Object::Ptr String::divide(const Object& other) const
     {
-        //TODO: throw RuntimeException();
         return nullptr;
     }
     Object::Ptr String::modulus(const Object& other) const
     {
-        //TODO: throw RuntimeException();
         return nullptr;
     }
 } // namespace Lox
