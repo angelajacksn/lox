@@ -26,6 +26,9 @@ namespace Lox
             case Token::Type::Slash:
                 write_instruction(Instruction::Div);
                 break;
+            case Token::Type::Modulus:
+                write_instruction(Instruction::Mod);
+                break;
             default:
                 break;
         }

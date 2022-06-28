@@ -62,7 +62,7 @@ namespace Lox
     Expression::Ptr Parser::factor()
     {
         auto expr = unary();
-        while (match(Token::Type::Star, Token::Type::Slash)) {
+        while (match(Token::Type::Star, Token::Type::Slash, Token::Type::Modulus)) {
             auto binary_operator = previous_token_;
             expr = Expression::create<BinaryExpr>(std::move(expr), binary_operator, unary());
         }

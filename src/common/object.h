@@ -1,6 +1,7 @@
 #ifndef LOX_OBJECT_H
 #define LOX_OBJECT_H
 
+#include <cmath>
 #include <concepts>
 #include <memory>
 #include <string>
@@ -45,6 +46,7 @@ namespace Lox
         double operator-() const { return -value_; }
         double operator*(const Number& other) const { return value_ * other.value_; }
         double operator/(const Number& other) const { return value_ / other.value_; }
+        double operator%(const Number& other) const { return std::fmod(value_, other.value_); }
 
     private:
         double value_ = 0.0;

@@ -44,6 +44,8 @@ namespace Lox
                     return single_char_token(Token::Type::RightParen);
                 case ';':
                     return single_char_token(Token::Type::Semicolon);
+                case '%':
+                    return single_char_token(Token::Type::Modulus);
                 default:
                     if (std::isalpha(c) || c == '_')
                         return identifier_or_keyword();

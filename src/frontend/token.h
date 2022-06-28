@@ -19,6 +19,7 @@ namespace Lox
             LeftParen,
             RightParen,
             Semicolon,
+            Modulus,
 
             Identifier,
             Print,
@@ -51,6 +52,8 @@ namespace Lox
                 return "RIGHT_PAREN";
             case Semicolon:
                 return "SEMICOLON";
+            case Modulus:
+                return "MODULUS";
             case Identifier:
                 return "IDENTIFIER";
             case Print:

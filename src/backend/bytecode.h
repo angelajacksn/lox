@@ -20,6 +20,7 @@ namespace Lox
         Sub, // Subtract the 2 values on top of the stack
         Mul, // Multiply the 2 values on top of the stack
         Div, // Divide the 2 values on top of the stack
+        Mod, // Perform modulus on the 2 values on top of the stack
         Neg, // Negate the value on top of the stack
         Print, // Print the value on top of the stack
     };
@@ -61,6 +62,8 @@ namespace Lox
                 return "MUL";
             case Div:
                 return "DIV";
+            case Mod:
+                return "MOD";
             case Neg:
                 return "NEG";
             case Print:

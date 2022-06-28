@@ -55,6 +55,14 @@ namespace Lox
                         stack_.push(Object::create<Number>(divided));
                     }
                     break;
+                case Mod:
+                    if (
+                        auto rhs = std::dynamic_pointer_cast<Number>(stack_.pop());
+                        auto lhs = std::dynamic_pointer_cast<Number>(stack_.pop())) {
+                        auto remainder = run_binary_op(*lhs, *rhs, std::modulus<>());
+                        stack_.push(Object::create<Number>(remainder));
+                    }
+                    break;
                 case Neg:
                     if (auto operand = std::dynamic_pointer_cast<Number>(stack_.pop())) {
                         auto negated = -(*operand);
