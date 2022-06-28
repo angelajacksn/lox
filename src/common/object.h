@@ -14,7 +14,8 @@ namespace Lox
     public:
         enum class Type {
             Nil,
-            Number
+            Number,
+            String
         };
 
         using Ptr = std::shared_ptr<Object>;
@@ -30,6 +31,15 @@ namespace Lox
         virtual Object::Type type() const = 0;
     };
 
+    class Nil : public Object
+    {
+    public:
+        static constexpr std::string_view kString = "Nil";
+
+        std::string_view to_string() const override { return kString; }
+        Type type() const override { return Type::Nil; }
+    };
+
     class Number : public Object
     {
     public:
@@ -38,7 +48,7 @@ namespace Lox
         Number(std::string_view value);
 
         std::string_view to_string() const override { return string_; }
-        Type type() const override;
+        Type type() const override { return Type::Number; }
 
         double value() const { return value_; }
         double operator+(const Number& other) const { return value_ + other.value_; }
@@ -53,15 +63,20 @@ namespace Lox
         std::string string_ = "";
     };
 
-    class Nil : public Object
+    class String : public Object
     {
     public:
-        static constexpr std::string_view kString = "Nil";
+        String(std::string value);
+        String(std::string_view value);
 
-        std::string_view to_string() const override { return kString; }
-        Type type() const override { return Type::Nil; }
+        std::string_view to_string() const override { return string_; }
+        Type type() const override { return Object::Type::String; }
+
+        const std::string& value() const { return string_; }
+
+    private:
+        std::string string_;
     };
-
 } // namespace Lox
 
 #endif // LOX_OBJECT_H

@@ -14,8 +14,13 @@ namespace Lox
     {
     }
 
-    Object::Type Number::type() const
+    String::String(std::string value)
+        : string_(std::move(value))
     {
-        return Type::Nil;
+    }
+
+    String::String(std::string_view value)
+        : string_(value)
+    {
     }
 } // namespace Lox
