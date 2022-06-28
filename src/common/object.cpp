@@ -94,8 +94,8 @@ namespace Lox
     {
         if (auto number = dynamic_cast<const Number*>(&other)) {
             auto multiplied_string = string_;
-            for (size_t i = 0; i < std::floor(number->value()); ++i)
-                multiplied_string += multiplied_string;
+            for (size_t i = 1; i < number->value(); ++i)
+                multiplied_string += string_;
             return Object::create<String>(multiplied_string);
         }
         //TODO: throw RuntimeException();
