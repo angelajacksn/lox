@@ -43,11 +43,7 @@ int main(int argc, const char* argv[])
             return static_cast<int>(Lox::ReturnCode::IOError);
         }
         const auto result = run(source_file);
-        if (result != Lox::ReturnCode::Ok) {
-            fmt::print(stderr, "{}", Lox::get_return_code_msg(result));
-            return static_cast<int>(result);
-        }
-        return static_cast<int>(Lox::ReturnCode::Ok);
+        return static_cast<int>(result);
     }
     return static_cast<int>(Lox::ReturnCode::Ok);
 }

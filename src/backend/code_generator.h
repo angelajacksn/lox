@@ -26,15 +26,16 @@ namespace Lox
         void generate_code(const Statement& statement) { statement.accept(*this); }
 
         template<typename... Args>
-        void write_instruction(Instruction instruction, Args&&... args)
+        void write_instruction(SourceLocation location, Instruction instruction, Args&&... args)
         {
-            code_.push_back(static_cast<Byte>(instruction));
-            (code_.push_back(args), ...);
+            code_.push_back(static_cast<Byte>(instruction), location);
+            (code_.push_back(args, location), ...);
         }
-        void add_constant(Object::Ptr value)
+
+        void add_constant(SourceLocation location, Object::Ptr value)
         {
             auto constant_index = code_.constants().push(std::move(value));
-            write_instruction(Instruction::PushC, constant_index);
+            write_instruction(location, Instruction::PushC, constant_index);
         }
 
     private:

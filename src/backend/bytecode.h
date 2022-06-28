@@ -1,6 +1,7 @@
 #ifndef LOX_BYTECODE_H
 #define LOX_BYTECODE_H
 
+#include "common/source_location.h"
 #include "constant_pool.h"
 #include <array>
 #include <cstdint>
@@ -31,14 +32,20 @@ namespace Lox
         static constexpr auto kMaxConstants = std::numeric_limits<Byte>::max();
 
     public:
-        void push_back(Byte value) { text_.push_back(value); }
+        void push_back(Byte value, SourceLocation location)
+        {
+            text_.push_back(value);
+            line_information_.push_back(std::move(location));
+        }
         size_t size() const { return text_.size(); }
         Byte operator[](size_t index) const { return text_[index]; }
+        const SourceLocation& get_source_location(size_t instruction_index) const { return line_information_[instruction_index]; }
         auto& constants() { return constants_; }
         auto& constants() const { return constants_; }
 
     private:
         std::vector<Byte> text_;
+        std::vector<SourceLocation> line_information_;
         ConstantPool<Byte> constants_;
     };
 
