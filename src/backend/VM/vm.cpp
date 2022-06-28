@@ -25,48 +25,48 @@ namespace Lox
                     break;
                 case Add:
                     if (
-                        auto rhs = std::dynamic_pointer_cast<Number>(stack_.pop());
-                        auto lhs = std::dynamic_pointer_cast<Number>(stack_.pop())) {
-                        auto added = run_binary_op(*lhs, *rhs, std::plus<>());
-                        stack_.push(Object::create<Number>(added));
+                        auto rhs = stack_.pop();
+                        auto lhs = stack_.pop()) {
+                        auto added = *rhs + *lhs;
+                        stack_.push(std::move(added));
                     }
                     break;
                 case Sub:
                     if (
-                        auto rhs = std::dynamic_pointer_cast<Number>(stack_.pop());
-                        auto lhs = std::dynamic_pointer_cast<Number>(stack_.pop())) {
-                        auto subtracted = run_binary_op(*lhs, *rhs, std::minus<>());
-                        stack_.push(Object::create<Number>(subtracted));
+                        auto rhs = stack_.pop();
+                        auto lhs = stack_.pop()) {
+                        auto subtracted = *lhs - *rhs;
+                        stack_.push(subtracted);
                     }
                     break;
                 case Mul:
                     if (
-                        auto rhs = std::dynamic_pointer_cast<Number>(stack_.pop());
-                        auto lhs = std::dynamic_pointer_cast<Number>(stack_.pop())) {
-                        auto multiplied = run_binary_op(*lhs, *rhs, std::multiplies<>());
-                        stack_.push(Object::create<Number>(multiplied));
+                        auto rhs = stack_.pop();
+                        auto lhs = stack_.pop()) {
+                        auto multiplied = *lhs * *rhs;
+                        stack_.push(multiplied);
                     }
                     break;
                 case Div:
                     if (
-                        auto rhs = std::dynamic_pointer_cast<Number>(stack_.pop());
-                        auto lhs = std::dynamic_pointer_cast<Number>(stack_.pop())) {
-                        auto divided = run_binary_op(*lhs, *rhs, std::divides<>());
-                        stack_.push(Object::create<Number>(divided));
+                        auto rhs = stack_.pop();
+                        auto lhs = stack_.pop()) {
+                        auto divided = *lhs / *rhs;
+                        stack_.push(divided);
                     }
                     break;
                 case Mod:
                     if (
-                        auto rhs = std::dynamic_pointer_cast<Number>(stack_.pop());
-                        auto lhs = std::dynamic_pointer_cast<Number>(stack_.pop())) {
-                        auto remainder = run_binary_op(*lhs, *rhs, std::modulus<>());
-                        stack_.push(Object::create<Number>(remainder));
+                        auto rhs = stack_.pop();
+                        auto lhs = stack_.pop()) {
+                        auto remainder = *lhs % *rhs;
+                        stack_.push(remainder);
                     }
                     break;
                 case Neg:
-                    if (auto operand = std::dynamic_pointer_cast<Number>(stack_.pop())) {
+                    if (auto operand = stack_.pop()) {
                         auto negated = -(*operand);
-                        stack_.push(Object::create<Number>(negated));
+                        stack_.push(negated);
                     }
                 case Print:
                     fmt::print("{}\n", stack_.pop()->to_string());
