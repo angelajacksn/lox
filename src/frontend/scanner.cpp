@@ -6,6 +6,8 @@ namespace Lox
 {
     const std::unordered_map<std::string_view, Token::Type> Scanner::kKeywords = {
         {"print", Token::Type::Print},
+        {"true", Token::Type::True},
+        {"false", Token::Type::False},
     };
 
     Scanner::Scanner(std::string_view source)
@@ -107,7 +109,7 @@ namespace Lox
     Token Scanner::string_token()
     {
         auto start_location = location_;
-        auto throw_if_at_end = [this, start_location]{
+        auto throw_if_at_end = [this, start_location] {
             if (is_at_end())
                 throw SyntaxError("Unterminated string", start_location);
         };

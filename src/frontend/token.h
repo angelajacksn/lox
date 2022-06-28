@@ -24,6 +24,8 @@ namespace Lox
 
             Identifier,
             Print,
+            True,
+            False,
 
             Eof
         };
@@ -61,6 +63,10 @@ namespace Lox
                 return "IDENTIFIER";
             case Print:
                 return "PRINT";
+            case True:
+                return "TRUE";
+            case False:
+                return "False";
             case Eof:
                 return "EOF";
         }
