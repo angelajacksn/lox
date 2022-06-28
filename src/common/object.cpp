@@ -74,16 +74,6 @@ namespace Lox
         return unsupported_operation();
     }
 
-    Object::Ptr String::subtract(const Object& other) const
-    {
-        return unsupported_operation();
-    }
-
-    Object::Ptr String::negate() const
-    {
-        return unsupported_operation();
-    }
-
     Object::Ptr String::multiply(const Object& other) const
     {
         if (auto number = dynamic_cast<const Number*>(&other)) {
@@ -92,16 +82,6 @@ namespace Lox
                 multiplied_string += string_;
             return Object::create<String>(multiplied_string);
         }
-        return unsupported_operation();
-    }
-
-    Object::Ptr String::divide(const Object& other) const
-    {
-        return unsupported_operation();
-    }
-
-    Object::Ptr String::modulus(const Object& other) const
-    {
         return unsupported_operation();
     }
 
@@ -120,35 +100,5 @@ namespace Lox
     std::string_view Boolean::to_string() const
     {
         return string_;
-    }
-
-    Object::Ptr Boolean::add(const Object& other) const
-    {
-        return unsupported_operation();
-    }
-
-    Object::Ptr Boolean::subtract(const Object& other) const
-    {
-        return unsupported_operation();
-    }
-
-    Object::Ptr Boolean::negate() const
-    {
-        return unsupported_operation();
-    }
-
-    Object::Ptr Boolean::multiply(const Object& other) const
-    {
-        return unsupported_operation();
-    }
-
-    Object::Ptr Boolean::divide(const Object& other) const
-    {
-        return unsupported_operation();
-    }
-
-    Object::Ptr Boolean::modulus(const Object& other) const
-    {
-        return unsupported_operation();
     }
 } // namespace Lox

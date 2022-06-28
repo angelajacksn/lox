@@ -41,12 +41,12 @@ namespace Lox
 
     protected:
         static Object::Ptr unsupported_operation() { return nullptr; }
-        virtual Object::Ptr add(const Object& other) const = 0;
-        virtual Object::Ptr subtract(const Object& other) const = 0;
-        virtual Object::Ptr negate() const = 0;
-        virtual Object::Ptr multiply(const Object& other) const = 0;
-        virtual Object::Ptr divide(const Object& other) const = 0;
-        virtual Object::Ptr modulus(const Object& other) const = 0;
+        virtual Object::Ptr add(const Object& other) const { return unsupported_operation(); }
+        virtual Object::Ptr subtract(const Object& other) const { return unsupported_operation(); }
+        virtual Object::Ptr negate() const { return unsupported_operation(); }
+        virtual Object::Ptr multiply(const Object& other) const { return unsupported_operation(); }
+        virtual Object::Ptr divide(const Object& other) const { return unsupported_operation(); }
+        virtual Object::Ptr modulus(const Object& other) const { return unsupported_operation(); }
     };
 
     class Nil : public Object
@@ -105,11 +105,7 @@ namespace Lox
 
     protected:
         Object::Ptr add(const Object& other) const override;
-        Object::Ptr subtract(const Object& other) const override;
-        Object::Ptr negate() const override;
         Object::Ptr multiply(const Object& other) const override;
-        Object::Ptr divide(const Object& other) const override;
-        Object::Ptr modulus(const Object& other) const override;
 
     private:
         std::string string_;
@@ -123,14 +119,6 @@ namespace Lox
 
         std::string_view to_string() const override;
         Type type() const override { return Object::Type::Boolean; }
-
-    protected:
-        Ptr add(const Object& other) const override;
-        Ptr subtract(const Object& other) const override;
-        Ptr negate() const override;
-        Ptr multiply(const Object& other) const override;
-        Ptr divide(const Object& other) const override;
-        Ptr modulus(const Object& other) const override;
 
     private:
         bool value_;
