@@ -46,7 +46,27 @@ namespace Lox
 
     Expression::Ptr Parser::expression()
     {
-        return equality();
+        return logical_or();
+    }
+
+    Expression::Ptr Parser::logical_or()
+    {
+        auto expr = logical_and();
+        while (match(Token::Type::Or)) {
+            auto logical_operator = previous_token_;
+            expr = Expression::create<LogicalExpr>(std::move(expr), logical_operator, logical_and());
+        }
+        return expr;
+    }
+
+    Expression::Ptr Parser::logical_and()
+    {
+        auto expr = equality();
+        while (match(Token::Type::And)) {
+            auto logical_operator = previous_token_;
+            expr = Expression::create<LogicalExpr>(std::move(expr), logical_operator, equality());
+        }
+        return expr;
     }
 
     Expression::Ptr Parser::equality()

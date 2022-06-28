@@ -31,6 +31,8 @@ namespace Lox
             Print,
             True,
             False,
+            And,
+            Or,
 
             Eof
         };
@@ -79,7 +81,11 @@ namespace Lox
             case True:
                 return "TRUE";
             case False:
-                return "False";
+                return "FALSE";
+            case And:
+                return "AND";
+            case Or:
+                return "OR";
             case Eof:
                 return "EOF";
         }

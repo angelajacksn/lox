@@ -11,7 +11,7 @@ namespace Lox
     class LoxRuntime
     {
     public:
-        static constexpr bool kPrintDisassembly = false;
+        static constexpr bool kPrintDisassembly = true;
         
         LoxRuntime();
         ReturnCode run(std::string_view source);

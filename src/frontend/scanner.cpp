@@ -8,6 +8,8 @@ namespace Lox
         {"print", Token::Type::Print},
         {"true", Token::Type::True},
         {"false", Token::Type::False},
+        {"and", Token::Type::And},
+        {"or", Token::Type::Or},
     };
 
     Scanner::Scanner(std::string_view source)

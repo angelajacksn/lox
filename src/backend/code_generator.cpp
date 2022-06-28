@@ -66,6 +66,11 @@ namespace Lox
         return nullptr;
     }
 
+    Object::Ptr CodeGenerator::visit(const LogicalExpr& expr)
+    {
+        // TODO: Implement logic with jumps
+    }
+
     void CodeGenerator::visit(const PrintStmt& stmt)
     {
         generate_code(stmt.expression());

@@ -38,7 +38,7 @@ namespace Lox
         void push_back(Byte value, SourceLocation location)
         {
             text_.push_back(value);
-            line_information_.push_back(std::move(location));
+            line_information_.push_back(location);
         }
         size_t size() const { return text_.size(); }
         Byte operator[](size_t index) const { return text_[index]; }

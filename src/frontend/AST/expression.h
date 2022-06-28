@@ -9,6 +9,7 @@
 
 namespace Lox
 {
+    class LogicalExpr;
     class BinaryExpr;
     class UnaryExpr;
     class LiteralExpr;
@@ -18,6 +19,7 @@ namespace Lox
     {
     public:
         virtual ~ExpressionVisitor() = default;
+        virtual Object::Ptr visit(const LogicalExpr& expr) = 0;
         virtual Object::Ptr visit(const BinaryExpr& expr) = 0;
         virtual Object::Ptr visit(const UnaryExpr& expr) = 0;
         virtual Object::Ptr visit(const LiteralExpr& expr) = 0;
@@ -109,6 +111,23 @@ namespace Lox
 
     private:
         Expression::Ptr expression_;
+    };
+
+    class LogicalExpr : public Expression
+    {
+    public:
+        LogicalExpr(Expression::Ptr left, Token logical_operator, Expression::Ptr right);
+        Object::Ptr accept(ExpressionVisitor& visitor) const override { return visitor.visit(*this); }
+        const SourceLocation& source_location() const override { return operator_.location; }
+
+        const Expression& left() const { return *left_; }
+        const Token& logical_operator() const { return operator_; }
+        const Expression& right() const { return *right_; }
+
+    private:
+        Expression::Ptr left_;
+        Token operator_;
+        Expression::Ptr right_;
     };
 } // namespace Lox
 

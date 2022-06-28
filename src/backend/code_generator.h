@@ -17,6 +17,7 @@ namespace Lox
         Object::Ptr visit(const UnaryExpr& expr) override;
         Object::Ptr visit(const LiteralExpr& expr) override;
         Object::Ptr visit(const GroupingExpr& expr) override;
+        Object::Ptr visit(const LogicalExpr& expr) override;
 
         void visit(const PrintStmt& stmt) override;
         void visit(const ExpressionStmt& stmt) override;
@@ -32,6 +33,7 @@ namespace Lox
             (code_.push_back(args, location), ...);
         }
 
+    private:
         void add_constant(SourceLocation location, Object::Ptr value)
         {
             auto constant_index = code_.constants().push(std::move(value));
