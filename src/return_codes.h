@@ -6,20 +6,23 @@ namespace Lox {
         Ok = 0,
         IOError,
         SyntaxError,
-        RuntimeError
+        RuntimeError,
+        TypeError
     };
 
-    constexpr const char* get_return_code_msg(ReturnCode code) {
+    constexpr const char* to_string(ReturnCode code) {
         using enum ReturnCode;
         switch (code) {
             case Ok:
-                return "No error";
+                return "OK";
             case IOError:
-                return "An IO error occurred";
+                return "IOError";
             case SyntaxError:
-                return "Syntax error in source";
+                return "SyntaxError";
             case RuntimeError:
-                return "A runtime error occurred";
+                return "RuntimeError";
+            case TypeError:
+                return "TypeError";
         }
         return "Invalid return code";
     }

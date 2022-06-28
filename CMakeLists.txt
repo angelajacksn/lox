@@ -39,6 +39,8 @@ add_executable(lox
         src/backend/disassembler.cpp
         src/backend/errors/vm_error.h
         src/backend/errors/out_of_memory_error.h
+        src/backend/errors/runtime_error.h
+        src/backend/errors/type_error.h
         src/backend/constant_pool.h
         src/backend/VM/vm.h
         src/backend/VM/vm.cpp)
