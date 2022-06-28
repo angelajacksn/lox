@@ -46,10 +46,12 @@ namespace Lox
                     return single_char_token(Token::Type::Semicolon);
                 case '%':
                     return single_char_token(Token::Type::Modulus);
+                case '"':
+                    return string_token();
                 default:
                     if (std::isalpha(c) || c == '_')
                         return identifier_or_keyword();
-                    if (std::isdigit(c))
+                    else if (std::isdigit(c))
                         return number_token();
                     throw SyntaxError("Unknown character", location_);
             }
@@ -92,7 +94,7 @@ namespace Lox
     {
         auto start_location = location_;
         for (char c = advance(); std::isalnum(c) || c == '_'; c = peek())
-            c = advance();
+            advance();
 
         auto token_type = Token::Type::Identifier;
         auto string = current_substr();
@@ -100,5 +102,35 @@ namespace Lox
         if (it != kKeywords.end())
             token_type = it->second;
         return Token{.type = token_type, .string = string, .location = start_location};
+    }
+
+    Token Scanner::string_token()
+    {
+        auto start_location = location_;
+        auto throw_if_at_end = [this, start_location]{
+            if (is_at_end())
+                throw SyntaxError("Unterminated string", start_location);
+        };
+
+        // Syntax error if opening '"' is the last character in source
+        throw_if_at_end();
+        // '"";'
+        for (char c = advance(); !is_at_end() && c != '"'; c = peek()) {
+            if (c == '\n')
+                location_.new_line();
+            advance();
+        }
+        // Syntax error if we reached the end without a closing '"'
+        throw_if_at_end();
+
+        if (peek() == '"')
+            advance(); // Consume closing '"'
+
+        // Explicitly calling source.substr rather
+        // than current_substr() since we need to discard the starting and closing '"'
+        return Token{
+            .type = Token::Type::String,
+            .string = source_.substr(token_start_ + 1, current_ - (token_start_ + 1) - 1),
+            .location = start_location};
     }
 } // namespace Lox

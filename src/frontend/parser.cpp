@@ -82,6 +82,8 @@ namespace Lox
     {
         if (match(Token::Type::Number))
             return Expression::create<LiteralExpr>(Object::create<Number>(previous_token_.string), previous_token_.location);
+        else if (match(Token::Type::String))
+            return Expression::create<LiteralExpr>(Object::create<String>(previous_token_.string), previous_token_.location);
         else if (match(Token::Type::LeftParen)) {
             auto expr = expression();
             expect_and_consume(Token::Type::RightParen, "Expected ')' after expression");

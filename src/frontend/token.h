@@ -11,6 +11,7 @@ namespace Lox
     struct Token {
         enum class Type {
             Number,
+            String,
 
             Plus,
             Minus,
@@ -38,6 +39,8 @@ namespace Lox
         switch (type) {
             case Number:
                 return "NUMBER";
+            case String:
+                return "STRING";
             case Plus:
                 return "PLUS";
             case Minus:

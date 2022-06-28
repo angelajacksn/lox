@@ -21,7 +21,6 @@ namespace Lox
     private:
         char advance();
         char peek() const;
-        void new_line();
 
         bool is_at_end() const { return current_ >= source_.length(); }
         std::string_view current_substr() const { return source_.substr(token_start_, current_ - token_start_); }
@@ -33,6 +32,7 @@ namespace Lox
 
         Token number_token();
         Token identifier_or_keyword();
+        Token string_token();
 
     private:
         std::string_view source_;
