@@ -24,6 +24,9 @@ namespace Lox
         Mod, // Perform modulus on the 2 values on top of the stack
         Neg, // Negate the value on top of the stack
         Print, // Print the value on top of the stack
+        ConstNil, // Push a nil reference onto the stack
+        ConstTrue, // Push boolean true onto the stack
+        ConstFalse, // Push boolean false onto the stack
     };
 
     class CodeChunk
@@ -75,6 +78,12 @@ namespace Lox
                 return "NEG";
             case Print:
                 return "PRINT";
+            case ConstNil:
+                return "CONST_NIL";
+            case ConstTrue:
+                return "CONST_TRUE";
+            case ConstFalse:
+                return "CONST_FALSE";
         }
         return "???";
     }

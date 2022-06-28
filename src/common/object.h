@@ -38,6 +38,7 @@ namespace Lox
         Object::Ptr operator*(const Object& other) const { return multiply(other); }
         Object::Ptr operator/(const Object& other) const { return divide(other); }
         Object::Ptr operator%(const Object& other) const { return modulus(other); }
+        operator bool() const { return is_truthy(); }
 
     protected:
         static Object::Ptr unsupported_operation() { return nullptr; }
@@ -47,6 +48,7 @@ namespace Lox
         virtual Object::Ptr multiply(const Object& other) const { return unsupported_operation(); }
         virtual Object::Ptr divide(const Object& other) const { return unsupported_operation(); }
         virtual Object::Ptr modulus(const Object& other) const { return unsupported_operation(); }
+        virtual bool is_truthy() const = 0;
     };
 
     class Nil : public Object
@@ -57,14 +59,9 @@ namespace Lox
 
         std::string_view to_string() const override { return kString; }
         Type type() const override { return Type::Nil; }
-        Object::Ptr add(const Object& other) const override { return kNilRef; }
 
     protected:
-        Object::Ptr subtract(const Object& other) const override { return kNilRef; }
-        Object::Ptr negate() const override { return kNilRef; }
-        Object::Ptr multiply(const Object& other) const override { return kNilRef; }
-        Object::Ptr divide(const Object& other) const override { return kNilRef; }
-        Object::Ptr modulus(const Object& other) const override { return kNilRef; }
+        bool is_truthy() const override { return false; }
     };
 
     class Number : public Object
@@ -86,6 +83,7 @@ namespace Lox
         Object::Ptr multiply(const Object& other) const override;
         Object::Ptr divide(const Object& other) const override;
         Object::Ptr modulus(const Object& other) const override;
+        bool is_truthy() const override { return value_ != 0.0; }
 
     private:
         double value_ = 0.0;
@@ -106,6 +104,7 @@ namespace Lox
     protected:
         Object::Ptr add(const Object& other) const override;
         Object::Ptr multiply(const Object& other) const override;
+        bool is_truthy() const override { return string_.empty(); }
 
     private:
         std::string string_;
@@ -114,11 +113,17 @@ namespace Lox
     class Boolean : public Object
     {
     public:
+        static const Object::Ptr kTrueRef;
+        static const Object::Ptr kFalseRef;
+
         Boolean(bool value);
         Boolean(std::string_view value);
 
         std::string_view to_string() const override;
         Type type() const override { return Object::Type::Boolean; }
+
+    protected:
+        bool is_truthy() const override { return value_; }
 
     private:
         bool value_;

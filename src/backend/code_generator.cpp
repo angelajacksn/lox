@@ -50,7 +50,13 @@ namespace Lox
 
     Object::Ptr CodeGenerator::visit(const LiteralExpr& expr)
     {
-        add_constant(expr.source_location(), expr.share_object());
+        auto& obj = expr.value();
+        if (auto const_boolean = dynamic_cast<const Boolean*>(&obj))
+            write_instruction(expr.source_location(),
+                              *const_boolean ? Instruction::ConstTrue : Instruction::ConstFalse);
+        else
+            add_constant(expr.source_location(), expr.share_object());
+
         return nullptr;
     }
 

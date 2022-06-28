@@ -13,6 +13,11 @@ namespace Lox
             Number,
             String,
 
+            Equal,
+            EqualEqual,
+            Bang,
+            BangEqual,
+
             Plus,
             Minus,
             Star,
@@ -43,6 +48,14 @@ namespace Lox
                 return "NUMBER";
             case String:
                 return "STRING";
+            case Equal:
+                return "EQUAL";
+            case EqualEqual:
+                return "EQUAL_EQUAL";
+            case Bang:
+                return "BANG";
+            case BangEqual:
+                return "BANG_EQUAL";
             case Plus:
                 return "PLUS";
             case Minus:

@@ -48,6 +48,10 @@ namespace Lox
                     return single_char_token(Token::Type::Semicolon);
                 case '%':
                     return single_char_token(Token::Type::Modulus);
+                case '=':
+                    return single_char_token(match('=') ? Token::Type::EqualEqual : Token::Type::Equal);
+                case '!':
+                    return single_char_token(match('=') ? Token::Type::BangEqual : Token::Type::Bang);
                 case '"':
                     return string_token();
                 default:

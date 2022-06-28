@@ -46,7 +46,17 @@ namespace Lox
 
     Expression::Ptr Parser::expression()
     {
-        return add_subtract();
+        return equality();
+    }
+
+    Expression::Ptr Parser::equality()
+    {
+        auto expr = add_subtract();
+        while (match(Token::Type::EqualEqual, Token::Type::BangEqual)) {
+            auto equality_operator = previous_token_;
+            expr = Expression::create<BinaryExpr>(std::move(expr), equality_operator, add_subtract());
+        }
+        return expr;
     }
 
     Expression::Ptr Parser::add_subtract()

@@ -27,6 +27,7 @@ namespace Lox
         Statement::Ptr print_statement();
         Statement::Ptr expression_statement();
         Expression::Ptr expression();
+        Expression::Ptr equality();
         Expression::Ptr add_subtract();
         Expression::Ptr factor();
         Expression::Ptr unary();

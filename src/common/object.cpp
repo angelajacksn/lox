@@ -3,6 +3,8 @@
 namespace Lox
 {
     const Object::Ptr Nil::kNilRef = Object::create<Nil>();
+    const Object::Ptr Boolean::kTrueRef = Object::create<Boolean>(true);
+    const Object::Ptr Boolean::kFalseRef = Object::create<Boolean>(false);
 
     Number::Number(double value)
         : value_(value)

@@ -2,8 +2,8 @@
 #define LOX_SCANNER_H
 
 #include "token.h"
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 namespace Lox
 {
@@ -21,6 +21,7 @@ namespace Lox
     private:
         char advance();
         char peek() const;
+        bool match(char expected) const { return peek() == expected; }
 
         bool is_at_end() const { return current_ >= source_.length(); }
         std::string_view current_substr() const { return source_.substr(token_start_, current_ - token_start_); }

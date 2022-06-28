@@ -95,6 +95,15 @@ namespace Lox
                     case Print:
                         fmt::print("{}\n", stack_.pop()->to_string());
                         break;
+                    case ConstNil:
+                        stack_.push(Nil::kNilRef);
+                        break;
+                    case ConstTrue:
+                        stack_.push(Boolean::kTrueRef);
+                        break;
+                    case ConstFalse:
+                        stack_.push(Boolean::kFalseRef);
+                        break;
                 }
             } catch (const RuntimeError& e) {
                 auto& source_location = e.location();
