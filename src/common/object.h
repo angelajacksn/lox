@@ -16,7 +16,8 @@ namespace Lox
         enum class Type {
             Nil,
             Number,
-            String
+            String,
+            Boolean
         };
 
         using Ptr = std::shared_ptr<Object>;
@@ -39,6 +40,7 @@ namespace Lox
         Object::Ptr operator%(const Object& other) const { return modulus(other); }
 
     protected:
+        static Object::Ptr unsupported_operation() { return nullptr; }
         virtual Object::Ptr add(const Object& other) const = 0;
         virtual Object::Ptr subtract(const Object& other) const = 0;
         virtual Object::Ptr negate() const = 0;
@@ -113,6 +115,28 @@ namespace Lox
         std::string string_;
     };
 
+    class Boolean : public Object
+    {
+    public:
+        Boolean(bool value);
+        Boolean(std::string_view value);
+
+        std::string_view to_string() const override;
+        Type type() const override { return Object::Type::Boolean; }
+
+    protected:
+        Ptr add(const Object& other) const override;
+        Ptr subtract(const Object& other) const override;
+        Ptr negate() const override;
+        Ptr multiply(const Object& other) const override;
+        Ptr divide(const Object& other) const override;
+        Ptr modulus(const Object& other) const override;
+
+    private:
+        bool value_;
+        std::string string_;
+    };
+
     constexpr const char* to_string(Object::Type object_type)
     {
         using enum Object::Type;
@@ -123,13 +147,15 @@ namespace Lox
                 return "Number";
             case String:
                 return "String";
+            case Boolean:
+                return "Boolean";
         }
         return "UNKNOWN";
     }
 } // namespace Lox
 
 template<>
-    struct fmt::formatter<Lox::Object::Type> {
+struct fmt::formatter<Lox::Object::Type> {
     constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin())
     {
         return ctx.begin();

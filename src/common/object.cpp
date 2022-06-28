@@ -21,7 +21,7 @@ namespace Lox
         if (auto number = dynamic_cast<const Number*>(&other))
             return Object::create<Number>(value_ + number->value_);
 
-        return nullptr;
+        return unsupported_operation();
     }
 
     Object::Ptr Number::subtract(const Object& other) const
@@ -29,7 +29,7 @@ namespace Lox
         if (auto number = dynamic_cast<const Number*>(&other))
             return Object::create<Number>(value_ - number->value_);
 
-        return nullptr;
+        return unsupported_operation();
     }
 
     Object::Ptr Number::negate() const
@@ -39,21 +39,21 @@ namespace Lox
 
     Object::Ptr Number::multiply(const Object& other) const
     {
-        return nullptr;
+        return unsupported_operation();
     }
     Object::Ptr Number::divide(const Object& other) const
     {
         if (auto number = dynamic_cast<const Number*>(&other))
             return Object::create<Number>(value_ * number->value_);
 
-        return nullptr;
+        return unsupported_operation();
     }
     Object::Ptr Number::modulus(const Object& other) const
     {
         if (auto number = dynamic_cast<const Number*>(&other))
             return Object::create<Number>(std::fmod(value_, number->value_));
 
-        return nullptr;
+        return unsupported_operation();
     }
 
     String::String(std::string value)
@@ -71,17 +71,19 @@ namespace Lox
         if (auto string = dynamic_cast<const String*>(&other))
             return Object::create<String>(string_ + string->string_);
 
-        return nullptr;
+        return unsupported_operation();
     }
 
     Object::Ptr String::subtract(const Object& other) const
     {
-        return nullptr;
+        return unsupported_operation();
     }
+
     Object::Ptr String::negate() const
     {
-        return nullptr;
+        return unsupported_operation();
     }
+
     Object::Ptr String::multiply(const Object& other) const
     {
         if (auto number = dynamic_cast<const Number*>(&other)) {
@@ -90,14 +92,63 @@ namespace Lox
                 multiplied_string += string_;
             return Object::create<String>(multiplied_string);
         }
-        return nullptr;
+        return unsupported_operation();
     }
+
     Object::Ptr String::divide(const Object& other) const
     {
-        return nullptr;
+        return unsupported_operation();
     }
+
     Object::Ptr String::modulus(const Object& other) const
     {
-        return nullptr;
+        return unsupported_operation();
+    }
+
+    Boolean::Boolean(bool value)
+        : value_(value)
+        , string_(value ? "true" : "false")
+    {
+    }
+
+    Boolean::Boolean(std::string_view value)
+        : value_(value == "true" ? true : false)
+        , string_(value)
+    {
+    }
+
+    std::string_view Boolean::to_string() const
+    {
+        return string_;
+    }
+
+    Object::Ptr Boolean::add(const Object& other) const
+    {
+        return unsupported_operation();
+    }
+
+    Object::Ptr Boolean::subtract(const Object& other) const
+    {
+        return unsupported_operation();
+    }
+
+    Object::Ptr Boolean::negate() const
+    {
+        return unsupported_operation();
+    }
+
+    Object::Ptr Boolean::multiply(const Object& other) const
+    {
+        return unsupported_operation();
+    }
+
+    Object::Ptr Boolean::divide(const Object& other) const
+    {
+        return unsupported_operation();
+    }
+
+    Object::Ptr Boolean::modulus(const Object& other) const
+    {
+        return unsupported_operation();
     }
 } // namespace Lox
