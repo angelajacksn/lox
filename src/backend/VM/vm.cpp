@@ -11,6 +11,10 @@ namespace Lox
         auto get_instruction_line = [&chunk](size_t location) {
             return chunk.get_source_location(location);
         };
+        auto read_word = [&chunk](size_t& location) {
+            location += 2;
+            return chunk.read_word(location - 1);
+        };
         auto throw_unsupported_operation =
             [&get_instruction_line](const char* operator_str, size_t location, const std::vector<Object::Type>& operand_types) {
                 auto message = fmt::format("unsupported operand type(s) for operator {}: {}",
@@ -103,6 +107,17 @@ namespace Lox
                         break;
                     case ConstFalse:
                         stack_.push(Boolean::kFalseRef);
+                        break;
+                    case Jump:
+                        location += static_cast<int16_t>(read_word(location));
+                        break;
+                    case JumpTrue:
+                        if (*stack_.top())
+                            location += static_cast<int16_t>(read_word(location));
+                        break;
+                    case JumpFalse:
+                        if (!(*stack_.top()))
+                            location += static_cast<int16_t>(read_word(location));
                         break;
                 }
             } catch (const RuntimeError& e) {

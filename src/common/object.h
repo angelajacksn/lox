@@ -39,6 +39,7 @@ namespace Lox
         Object::Ptr operator/(const Object& other) const { return divide(other); }
         Object::Ptr operator%(const Object& other) const { return modulus(other); }
         operator bool() const { return is_truthy(); }
+        bool operator==(const Object& other) const { return is_equal(other); }
 
     protected:
         static Object::Ptr unsupported_operation() { return nullptr; }
@@ -49,6 +50,7 @@ namespace Lox
         virtual Object::Ptr divide(const Object& other) const { return unsupported_operation(); }
         virtual Object::Ptr modulus(const Object& other) const { return unsupported_operation(); }
         virtual bool is_truthy() const = 0;
+        virtual bool is_equal(const Object& other) const = 0;
     };
 
     class Nil : public Object
@@ -62,6 +64,7 @@ namespace Lox
 
     protected:
         bool is_truthy() const override { return false; }
+        bool is_equal(const Object& other) const { return other.type() == Object::Type::Nil; }
     };
 
     class Number : public Object
@@ -84,6 +87,7 @@ namespace Lox
         Object::Ptr divide(const Object& other) const override;
         Object::Ptr modulus(const Object& other) const override;
         bool is_truthy() const override { return value_ != 0.0; }
+        bool is_equal(const Object& other) const;
 
     private:
         double value_ = 0.0;
@@ -104,7 +108,8 @@ namespace Lox
     protected:
         Object::Ptr add(const Object& other) const override;
         Object::Ptr multiply(const Object& other) const override;
-        bool is_truthy() const override { return string_.empty(); }
+        bool is_truthy() const override { return !string_.empty(); }
+        bool is_equal(const Object& other) const;
 
     private:
         std::string string_;
@@ -124,6 +129,7 @@ namespace Lox
 
     protected:
         bool is_truthy() const override { return value_; }
+        bool is_equal(const Object& other) const override;
 
     private:
         bool value_;

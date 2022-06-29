@@ -11,6 +11,7 @@
 namespace Lox
 {
     using Byte = uint8_t;
+    using Word = uint16_t;
 
     enum class Instruction : Byte {
         Nop = 0x0, // No operation
@@ -27,6 +28,9 @@ namespace Lox
         ConstNil, // Push a nil reference onto the stack
         ConstTrue, // Push boolean true onto the stack
         ConstFalse, // Push boolean false onto the stack
+        Jump, // Unconditional jump to offset
+        JumpTrue, // Jump if the value on top of the stack is truthy
+        JumpFalse, // Jump if the value on top of the stack is falsy
     };
 
     class CodeChunk
@@ -42,6 +46,8 @@ namespace Lox
         }
         size_t size() const { return text_.size(); }
         Byte operator[](size_t index) const { return text_[index]; }
+        Byte& operator[](size_t index) { return text_[index]; }
+        Word read_word(size_t index) const { return text_[index++] << 8 | text_[index]; }
         const SourceLocation& get_source_location(size_t instruction_index) const { return line_information_[instruction_index]; }
         auto& constants() { return constants_; }
         auto& constants() const { return constants_; }
@@ -84,6 +90,12 @@ namespace Lox
                 return "CONST_TRUE";
             case ConstFalse:
                 return "CONST_FALSE";
+            case Jump:
+                return "JUMP";
+            case JumpTrue:
+                return "JUMP_TRUE";
+            case JumpFalse:
+                return "JUMP_FALSE";
         }
         return "???";
     }

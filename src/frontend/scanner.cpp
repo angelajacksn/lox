@@ -101,7 +101,7 @@ namespace Lox
     Token Scanner::identifier_or_keyword()
     {
         auto start_location = location_;
-        for (char c = advance(); std::isalnum(c) || c == '_'; c = peek())
+        while (std::isalnum(peek()) || peek() == '_')
             advance();
 
         auto token_type = Token::Type::Identifier;
@@ -140,5 +140,13 @@ namespace Lox
             .type = Token::Type::String,
             .string = source_.substr(token_start_ + 1, current_ - (token_start_ + 1) - 1),
             .location = start_location};
+    }
+
+    bool Scanner::match(char expected)
+    {
+        if (peek() != expected)
+            return false;
+        advance();
+        return true;
     }
 } // namespace Lox

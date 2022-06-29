@@ -68,7 +68,23 @@ namespace Lox
 
     Object::Ptr CodeGenerator::visit(const LogicalExpr& expr)
     {
-        // TODO: Implement logic with jumps
+        auto location = expr.source_location();
+        auto jump_type = expr.logical_operator().type == Token::Type::And ? Instruction::JumpFalse : Instruction::JumpTrue;
+
+        generate_code(expr.left());
+        auto jump_offset_location = code_.size() + 1;
+        write_instruction(location, jump_type, Instruction::Nop, Instruction::Nop);
+
+        auto block_begin = code_.size();
+        write_instruction(location, Instruction::Pop);
+        generate_code(expr.right());
+        auto jump_offset = code_.size() - block_begin;
+
+        Byte jump_offset_hi_byte = jump_offset << 8;
+        Byte jump_offset_lo_byte = jump_offset;
+        patch(jump_offset_location++, jump_offset_hi_byte);
+        patch(jump_offset_location, jump_offset_lo_byte);
+        return nullptr;
     }
 
     void CodeGenerator::visit(const PrintStmt& stmt)

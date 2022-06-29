@@ -58,6 +58,13 @@ namespace Lox
         return unsupported_operation();
     }
 
+    bool Number::is_equal(const Object& other) const
+    {
+        if (auto number = dynamic_cast<const Number*>(&other))
+            return value_ == number->value_;
+        return false;
+    }
+
     String::String(std::string value)
         : string_(std::move(value))
     {
@@ -87,6 +94,13 @@ namespace Lox
         return unsupported_operation();
     }
 
+    bool String::is_equal(const Object& other) const
+    {
+        if (auto string = dynamic_cast<const String*>(&other))
+            return string_ == string->string_;
+        return false;
+    }
+
     Boolean::Boolean(bool value)
         : value_(value)
         , string_(value ? "true" : "false")
@@ -94,7 +108,7 @@ namespace Lox
     }
 
     Boolean::Boolean(std::string_view value)
-        : value_(value == "true" ? true : false)
+        : value_(value == "true")
         , string_(value)
     {
     }
@@ -102,5 +116,10 @@ namespace Lox
     std::string_view Boolean::to_string() const
     {
         return string_;
+    }
+
+    bool Boolean::is_equal(const Object& other) const
+    {
+        return value_ == other;
     }
 } // namespace Lox

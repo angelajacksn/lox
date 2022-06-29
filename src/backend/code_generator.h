@@ -30,14 +30,18 @@ namespace Lox
         void write_instruction(SourceLocation location, Instruction instruction, Args&&... args)
         {
             code_.push_back(static_cast<Byte>(instruction), location);
-            (code_.push_back(args, location), ...);
+            (code_.push_back(static_cast<Byte>(args), location), ...);
         }
 
-    private:
         void add_constant(SourceLocation location, Object::Ptr value)
         {
             auto constant_index = code_.constants().push(std::move(value));
             write_instruction(location, Instruction::PushC, constant_index);
+        }
+
+        void patch(size_t index, Byte value)
+        {
+            code_[index] = value;
         }
 
     private:
