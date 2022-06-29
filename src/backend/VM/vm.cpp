@@ -15,6 +15,11 @@ namespace Lox
             location += 2;
             return chunk.read_word(location - 1);
         };
+        auto exec_jump = [&read_word](bool condition, size_t& location) {
+            auto jump_offset = read_word(location);
+            if (condition)
+                location += static_cast<int16_t>(jump_offset);
+        };
         auto throw_unsupported_operation =
             [&get_instruction_line](const char* operator_str, size_t location, const std::vector<Object::Type>& operand_types) {
                 auto message = fmt::format("unsupported operand type(s) for operator {}: {}",
@@ -109,15 +114,19 @@ namespace Lox
                         stack_.push(Boolean::kFalseRef);
                         break;
                     case Jump:
-                        location += static_cast<int16_t>(read_word(location));
+                        exec_jump(true, location);
                         break;
                     case JumpTrue:
-                        if (*stack_.top())
-                            location += static_cast<int16_t>(read_word(location));
+                        exec_jump(*stack_.top(), location);
                         break;
                     case JumpFalse:
-                        if (!(*stack_.top()))
-                            location += static_cast<int16_t>(read_word(location));
+                        exec_jump(!(*stack_.top()), location);
+                        break;
+                    case JumpEq:
+                        exec_jump(*stack_.pop() == *stack_.pop(), location);
+                        break;
+                    case JumpNe:
+                        exec_jump(*stack_.pop() != *stack_.pop(), location);
                         break;
                 }
             } catch (const RuntimeError& e) {

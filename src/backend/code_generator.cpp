@@ -29,6 +29,17 @@ namespace Lox
             case Token::Type::Modulus:
                 write_instruction(expr.source_location(), Instruction::Mod);
                 break;
+            case Token::Type::EqualEqual:
+                write_instruction(expr.source_location(), Instruction::JumpNe, 0x00, 0x04);
+                write_instruction(expr.source_location(), Instruction::ConstTrue);
+                write_instruction(expr.source_location(), Instruction::Jump, 0x00, 0x01);
+                write_instruction(expr.source_location(), Instruction::ConstFalse);
+                break;
+            case Token::Type::BangEqual:
+                write_instruction(expr.source_location(), Instruction::JumpEq, 0x00, 0x04);
+                write_instruction(expr.source_location(), Instruction::ConstTrue);
+                write_instruction(expr.source_location(), Instruction::Jump, 0x00, 0x01);
+                write_instruction(expr.source_location(), Instruction::ConstFalse);
             default:
                 break;
         }

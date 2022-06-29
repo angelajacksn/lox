@@ -21,7 +21,9 @@ namespace Lox
                 }
                 case Instruction::Jump:
                 case Instruction::JumpTrue:
-                case Instruction::JumpFalse: {
+                case Instruction::JumpFalse:
+                case Instruction::JumpEq:
+                case Instruction::JumpNe: {
                     auto offset = chunk.read_word(++location);
                     ++location;
                     fmt::print("{} {:#04X} ({:#04X})\n", instruction, offset, location + offset + 1);

@@ -31,6 +31,8 @@ namespace Lox
         Jump, // Unconditional jump to offset
         JumpTrue, // Jump if the value on top of the stack is truthy
         JumpFalse, // Jump if the value on top of the stack is falsy
+        JumpEq, // Jump if the values on top of the stack are equal
+        JumpNe, // Jump if the values on top of the stack are not equal
     };
 
     class CodeChunk
@@ -96,6 +98,10 @@ namespace Lox
                 return "JUMP_TRUE";
             case JumpFalse:
                 return "JUMP_FALSE";
+            case JumpEq:
+                return "JUMP_EQ";
+            case JumpNe:
+                return "JUMP_NE";
         }
         return "???";
     }
